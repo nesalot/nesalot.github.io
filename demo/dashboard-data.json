@@ -18,15 +18,5 @@
     "output_tokens": 23970,
     "success": true,
     "summary": "Fixed 3 issues: #5 broken crates.io link, #10 empty mailto href, #11 missing lang attribute. Opened PRs #29, #30, #31."
-  },
-  {
-    "timestamp": "2026-06-16T06:25:20Z",
-    "agent": "manager",
-    "model": "",
-    "cost_usd": 0.0,
-    "input_tokens": 0,
-    "output_tokens": 0,
-    "success": true,
-    "summary": ""
   }
 ]
