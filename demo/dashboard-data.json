@@ -78,5 +78,25 @@
     "output_tokens": 26123,
     "success": true,
     "summary": "Fixed 3 issues: #48 skip navigation link, #47 aria-label source links, #37 footer color contrast. Opened PRs #53, #54, #55."
+  },
+  {
+    "timestamp": "2026-06-16T10:42:42Z",
+    "agent": "manager",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.3860445,
+    "input_tokens": 345395,
+    "output_tokens": 9187,
+    "success": true,
+    "summary": "Triage complete. Reviewed all 34 existing issues. 3 new issues created: #60 quote font-family, #61 unquoted body font, #62 missing favicon."
+  },
+  {
+    "timestamp": "2026-06-16T10:47:09Z",
+    "agent": "worker",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.6454065,
+    "input_tokens": 802896,
+    "output_tokens": 16784,
+    "success": true,
+    "summary": "Fixed 2 issues: #60 quote font-family name, #61 unquoted body font. Opened PRs #63, #64."
   }
 ]
