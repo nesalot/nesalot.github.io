@@ -50,6 +50,7 @@ Every issue MUST have exactly one label from each category:
 
 **Routing (pick one):**
 - `agent:ready` — Safe for an agent to fix autonomously
+- `agent:in-progress` — Currently being worked on by the worker agent (do NOT apply this — the worker sets it)
 - `needs:human` — Requires human judgment or decision
 
 ## Rules

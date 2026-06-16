@@ -36,7 +36,7 @@ Issues use these labels for coordination:
 
 **Risk:** `risk:low`, `risk:medium`, `risk:high`
 **Type:** `type:bug`, `type:accessibility`, `type:code-quality`, `type:docs`, `type:enhancement`
-**Routing:** `agent:ready`, `needs:human`
+**Routing:** `agent:ready`, `agent:in-progress`, `needs:human`
 
 ## Guardrails
 

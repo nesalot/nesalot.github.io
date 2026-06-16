@@ -10,17 +10,22 @@ For each issue, follow this pipeline exactly:
 - Understand what needs to be fixed
 - Note the file path and suggested fix from the issue body
 
-### 2. Create a Branch
+### 2. Claim the Issue
+- Update the issue labels: replace `agent:ready` with `agent:in-progress`
+- Keep all other existing labels (risk, type, etc.) — only swap the routing label
+- This prevents other runs from picking up the same issue
+
+### 3. Create a Branch
 - Branch from `master`
 - Use the naming convention: `fix/issue-{number}-{short-description}`
 - Example: `fix/issue-12-broken-crates-link`
 
-### 3. Write the Fix
+### 4. Write the Fix
 - Make the minimum change needed to resolve the issue
 - Only modify files in the `demo/` directory
 - NEVER modify `index.html` (root), `CNAME`, `css/styles.css`, `demo/dashboard.html`, or `demo/dashboard-data.json`
 
-### 4. Self-Review
+### 5. Self-Review
 - Review your own diff before proceeding
 - Check that:
   - The fix addresses exactly what the issue describes
@@ -28,7 +33,7 @@ For each issue, follow this pipeline exactly:
   - The HTML is still valid
   - No new problems were created
 
-### 5. Open a Pull Request
+### 6. Open a Pull Request
 - Title: Short description of the fix
 - Body must include:
   - `Fixes #<issue-number>`
@@ -36,7 +41,7 @@ For each issue, follow this pipeline exactly:
   - How to verify the fix
 - Target branch: `master`
 
-### 6. Comment on the Issue
+### 7. Comment on the Issue
 - Leave a comment on the original issue linking to the PR
 - Include evidence of what was changed
 
