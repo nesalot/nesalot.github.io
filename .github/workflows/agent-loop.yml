@@ -1,10 +1,9 @@
 name: Agent Loop - Scan, Triage & Fix
 
 on:
-  # Run daily at 9am UTC
-  schedule:
-    - cron: '0 9 * * *'
-  # Allow manual trigger from Actions tab
+  # Manual trigger only (re-enable schedule when ready)
+  # schedule:
+  #   - cron: '0 9 * * *'
   workflow_dispatch:
 
 jobs:

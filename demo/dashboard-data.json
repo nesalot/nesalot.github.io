@@ -78,25 +78,5 @@
     "output_tokens": 26123,
     "success": true,
     "summary": "Fixed 3 issues: #48 skip navigation link, #47 aria-label source links, #37 footer color contrast. Opened PRs #53, #54, #55."
-  },
-  {
-    "timestamp": "2026-06-16T10:42:42Z",
-    "agent": "manager",
-    "model": "",
-    "cost_usd": 0.0,
-    "input_tokens": 0,
-    "output_tokens": 0,
-    "success": true,
-    "summary": ""
-  },
-  {
-    "timestamp": "2026-06-16T10:47:09Z",
-    "agent": "worker",
-    "model": "",
-    "cost_usd": 0.0,
-    "input_tokens": 0,
-    "output_tokens": 0,
-    "success": true,
-    "summary": ""
   }
 ]
