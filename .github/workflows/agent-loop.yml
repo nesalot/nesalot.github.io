@@ -14,6 +14,7 @@ jobs:
     permissions:
       contents: read
       issues: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,7 +22,6 @@ jobs:
       - name: Run Manager Agent
         uses: anthropics/claude-code-action@v1
         with:
-          model: "claude-sonnet-4-20250514"
           prompt: |
             Use the backlog manager skill to triage this repository.
 
@@ -33,13 +33,9 @@ jobs:
             6. Do NOT modify any files — only create and label issues
 
             Work through the file systematically from top to bottom. Be thorough.
-          allowed_tools: |
-            Read
-            Glob
-            Grep
-            mcp__github__list_issues
-            mcp__github__issue_write
-            mcp__github__get_label
+          claude_args: |
+            --model claude-sonnet-4-20250514
+            --allowedTools "Read,Glob,Grep,mcp__github__list_issues,mcp__github__issue_write,mcp__github__get_label"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
   # Step 2: Worker picks up agent-ready issues and opens PRs
@@ -51,6 +47,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,7 +55,6 @@ jobs:
       - name: Run Worker Agent
         uses: anthropics/claude-code-action@v1
         with:
-          model: "claude-sonnet-4-20250514"
           prompt: |
             Use the worker skill to fix agent-ready issues in this repository.
 
@@ -75,18 +71,7 @@ jobs:
             5. Work on issues one at a time, sequentially
 
             IMPORTANT: Never push to master. Always use branches and PRs.
-          allowed_tools: |
-            Read
-            Edit
-            Write
-            Glob
-            Grep
-            Bash
-            mcp__github__list_issues
-            mcp__github__issue_read
-            mcp__github__issue_write
-            mcp__github__add_issue_comment
-            mcp__github__create_pull_request
-            mcp__github__create_branch
-            mcp__github__push_files
+          claude_args: |
+            --model claude-sonnet-4-20250514
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),mcp__github__list_issues,mcp__github__issue_read,mcp__github__issue_write,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
