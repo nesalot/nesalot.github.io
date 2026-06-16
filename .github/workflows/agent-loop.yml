@@ -39,6 +39,13 @@ jobs:
           show_full_output: true
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
+      - name: Verify manager succeeded
+        run: |
+          if grep -q '"is_error": true' /home/runner/work/_temp/claude-execution-output.json; then
+            echo "::error::Manager agent failed — check logs above"
+            exit 1
+          fi
+
   # Step 2: Worker picks up agent-ready issues and opens PRs
   # Only runs after the manager finishes successfully
   worker:
@@ -77,3 +84,10 @@ jobs:
             --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),mcp__github__list_issues,mcp__github__issue_read,mcp__github__issue_write,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
           show_full_output: true
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Verify worker succeeded
+        run: |
+          if grep -q '"is_error": true' /home/runner/work/_temp/claude-execution-output.json; then
+            echo "::error::Worker agent failed — check logs above"
+            exit 1
+          fi
