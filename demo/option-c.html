@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #282c34;
+            font-family: JetBrains Mono, monospace;
+            color: #abb2bf;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 20px;
+        }
+
+        .editor {
+            max-width: 750px;
+            width: 100%;
+        }
+
+        .tab-bar {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+        }
+
+        .tab {
+            background: #21252b;
+            padding: 10px 20px;
+            font-size: 12px;
+            color: #5c6370;
+            border: 1px solid #3e4451;
+            border-bottom: none;
+            cursor: default;
+        }
+
+        .tab.active {
+            background: #282c34;
+            color: #abb2bf;
+            border-bottom: 2px solid #61afef;
+        }
+
+        .editor-body {
+            background: #282c34;
+            border: 1px solid #3e4451;
+            padding: 0;
+        }
+
+        .line-row {
+            display: flex;
+            border-bottom: 1px solid #2c313a;
+        }
+
+        .line-row:last-child { border-bottom: none; }
+
+        .line-num {
+            width: 50px;
+            text-align: right;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #3e4451;
+            background: #21252b;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .line-content {
+            padding: 8px 16px;
+            font-size: 12px;
+            line-height: 1.6;
+            flex: 1;
+            min-height: 28px;
+        }
+
+        .keyword { color: #c678dd; }
+        .func { color: #61afef; }
+        .str { color: #98c379; }
+        .comment-text { color: #5c6370; font-style: italic; }
+        .var { color: #e06c75; }
+        .num { color: #d19a66; }
+        .tag { color: #e4bb68; }
+        .operator { color: #56b6c2; }
+
+        .section-header {
+            background: #2c313a;
+        }
+
+        .minimap {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .minimap a {
+            color: #5c6370;
+            font-size: 11px;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid #3e4451;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .minimap a:hover {
+            color: #61afef;
+            border-color: #61afef;
+        }
+
+        .status-bar {
+            background: #21252b;
+            border: 1px solid #3e4451;
+            border-top: none;
+            padding: 6px 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+        }
+
+        .status-bar .left { color: #5c6370; }
+        .status-bar .right { color: #3e4451; }
+    </style>
+</head>
+<body>
+    <div class="editor">
+        <div class="tab-bar">
+            <div class="tab active">about.js</div>
+            <div class="tab">projects.js</div>
+            <div class="tab">contact.js</div>
+        </div>
+        <div class="editor-body">
+            <div class="line-row">
+                <div class="line-num">1</div>
+                <div class="line-content"><span class="keyword">const</span> <span class="var">developer</span> <span class="operator">=</span> {</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">2</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="tag">name</span>: <span class="str">"J. Merrell"</span>,</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">3</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="tag">title</span>: <span class="str">"Software Developer"</span>,</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">4</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="tag">focus</span>: [<span class="str">"web"</span>, <span class="str">"automation"</span>, <span class="str">"AI tools"</span>],</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">5</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="tag">coffee</span>: <span class="num">Infinity</span></div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">6</div>
+                <div class="line-content">};</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">7</div>
+                <div class="line-content"></div>
+            </div>
+            <div class="line-row section-header">
+                <div class="line-num">8</div>
+                <div class="line-content"><span class="comment-text">// --- projects ---</span></div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">9</div>
+                <div class="line-content"><span class="keyword">const</span> <span class="var">projects</span> <span class="operator">=</span> [</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">10</div>
+                <div class="line-content">&nbsp;&nbsp;{ <span class="tag">name</span>: <span class="str">"dotfile-sync"</span>, <span class="tag">status</span>: <span class="str">"active"</span> },</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">11</div>
+                <div class="line-content">&nbsp;&nbsp;{ <span class="tag">name</span>: <span class="str">"minimal-tab"</span>, <span class="tag">status</span>: <span class="str">"shipped"</span> },</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">12</div>
+                <div class="line-content">&nbsp;&nbsp;{ <span class="tag">name</span>: <span class="str">"deploy-pipe"</span>, <span class="tag">status</span>: <span class="str">"active"</span> },</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">13</div>
+                <div class="line-content">&nbsp;&nbsp;{ <span class="tag">name</span>: <span class="str">"weather-api"</span>, <span class="tag">status</span>: <span class="str">"archived"</span> }</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">14</div>
+                <div class="line-content">];</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">15</div>
+                <div class="line-content"></div>
+            </div>
+            <div class="line-row section-header">
+                <div class="line-num">16</div>
+                <div class="line-content"><span class="comment-text">// --- stack ---</span></div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">17</div>
+                <div class="line-content"><span class="keyword">const</span> <span class="var">stack</span> <span class="operator">=</span> [</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">18</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="str">"JavaScript"</span>, <span class="str">"TypeScript"</span>, <span class="str">"Python"</span>,</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">19</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="str">"React"</span>, <span class="str">"Node.js"</span>, <span class="str">"Docker"</span>,</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">20</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="str">"AWS"</span>, <span class="str">"Git"</span>, <span class="str">"Claude"</span></div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">21</div>
+                <div class="line-content">];</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">22</div>
+                <div class="line-content"></div>
+            </div>
+            <div class="line-row section-header">
+                <div class="line-num">23</div>
+                <div class="line-content"><span class="comment-text">// --- links ---</span></div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">24</div>
+                <div class="line-content"><span class="keyword">const</span> <span class="var">links</span> <span class="operator">=</span> {</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">25</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="tag">github</span>: <span class="str">"<a href="https://github.com/nesalot" style="color:#98c379;text-decoration:none">github.com/nesalot</a>"</span>,</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">26</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="tag">linkedin</span>: <span class="str">"<a href="https://linkedin.com/in/doesnotexist123456" style="color:#98c379;text-decoration:none">linkedin.com/in/jmerrell</a>"</span>,</div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">27</div>
+                <div class="line-content">&nbsp;&nbsp;<span class="tag">email</span>: <span class="str">"<a href="" style="color:#98c379;text-decoration:none">contact@jmerrell.dev</a>"</span></div>
+            </div>
+            <div class="line-row">
+                <div class="line-num">28</div>
+                <div class="line-content">};</div>
+            </div>
+        </div>
+        <div class="status-bar">
+            <span class="left">about.js &mdash; UTF-8 &mdash; JavaScript</span>
+            <span class="right">Ln 28, Col 1</span>
+        </div>
+    </div>
+
+    <div class="minimap">
+        <a href="https://github.com/nesalot">GitHub</a>
+        <a href="https://linkedin.com/in/doesnotexist123456">LinkedIn</a>
+        <a href="">Email</a>
+        <a href="htps://jmerrell.dev/blog">Blog</a>
+    </div>
+</body>
+</html>

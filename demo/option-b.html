@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #282c34;
+            font-family: JetBrains Mono, monospace;
+            color: #abb2bf;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+
+        .terminal {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .window-bar {
+            background: #21252b;
+            border-radius: 8px 8px 0 0;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #e06c75; }
+        .dot.yellow { background: #e4bb68; }
+        .dot.green { background: #98c379; }
+
+        .window-title {
+            color: #5c6370;
+            font-size: 12px;
+            margin-left: 12px;
+        }
+
+        .terminal-body {
+            background: #1e2127;
+            border: 1px solid #3e4451;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 30px;
+        }
+
+        .line {
+            margin-bottom: 20px;
+            line-height: 1.7;
+            font-size: 13px;
+        }
+
+        .line:last-child { margin-bottom: 0; }
+
+        .prompt-symbol { color: #98c379; }
+        .command { color: #61afef; }
+        .flag { color: #c678dd; }
+        .string-val { color: #98c379; }
+        .output { color: #abb2bf; }
+        .muted { color: #5c6370; }
+        .error { color: #e06c75; }
+        .warn { color: #e4bb68; }
+        .key { color: #e06c75; }
+        .value { color: #61afef; }
+
+        .block {
+            background: #282c34;
+            border-radius: 4px;
+            padding: 16px;
+            margin: 8px 0 20px 0;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background: #528bff;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .section-gap { margin-top: 40px; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-right: 4px;
+        }
+
+        .badge-green { background: #2a3a2a; color: #98c379; border: 1px solid #3a4a3a; }
+        .badge-blue { background: #2a2a3a; color: #61afef; border: 1px solid #3a3a4a; }
+        .badge-purple { background: #2a2a3a; color: #c678dd; border: 1px solid #3a3a4a; }
+
+        img { display: none; }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="window-bar">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <span class="window-title">jmerrell@dev ~ /about</span>
+        </div>
+        <div class="terminal-body">
+            <div class="line">
+                <span class="prompt-symbol">$</span> <span class="command">whoami</span>
+            </div>
+            <div class="block">
+                <span class="key">name</span>: <span class="string-val">"J. Merrell"</span><br>
+                <span class="key">role</span>: <span class="string-val">"Software Developer"</span><br>
+                <span class="key">location</span>: <span class="string-val">"Earth"</span><br>
+                <span class="key">status</span>: <span class="string-val">"Building things"</span>
+            </div>
+
+            <div class="line section-gap">
+                <span class="prompt-symbol">$</span> <span class="command">ls</span> <span class="flag">-la</span> <span class="output">./projects/</span>
+            </div>
+            <div class="block">
+                <span class="muted">drwxr-xr-x</span>  <span class="value">dotfile-sync</span>    <span class="badge badge-green">active</span><br>
+                <span class="muted">drwxr-xr-x</span>  <span class="value">minimal-tab</span>     <span class="badge badge-blue">shipped</span><br>
+                <span class="muted">drwxr-xr-x</span>  <span class="value">deploy-pipe</span>     <span class="badge badge-green">active</span><br>
+                <span class="muted">drwxr-xr-x</span>  <span class="value">weather-api</span>     <span class="badge badge-purple">archived</span>
+            </div>
+
+            <div class="line section-gap">
+                <span class="prompt-symbol">$</span> <span class="command">cat</span> <span class="output">stack.json</span>
+            </div>
+            <div class="block">
+                {<br>
+                &nbsp;&nbsp;<span class="key">"languages"</span>: [<span class="string-val">"JavaScript"</span>, <span class="string-val">"TypeScript"</span>, <span class="string-val">"Python"</span>],<br>
+                &nbsp;&nbsp;<span class="key">"frontend"</span>: [<span class="string-val">"React"</span>, <span class="string-val">"HTML/CSS"</span>],<br>
+                &nbsp;&nbsp;<span class="key">"backend"</span>: [<span class="string-val">"Node.js"</span>, <span class="string-val">"Express"</span>],<br>
+                &nbsp;&nbsp;<span class="key">"devops"</span>: [<span class="string-val">"Docker"</span>, <span class="string-val">"AWS"</span>, <span class="string-val">"GitHub Actions"</span>],<br>
+                &nbsp;&nbsp;<span class="key">"tools"</span>: [<span class="string-val">"Git"</span>, <span class="string-val">"VS Code"</span>, <span class="string-val">"Claude"</span>]<br>
+                }
+            </div>
+
+            <div class="line section-gap">
+                <span class="prompt-symbol">$</span> <span class="command">curl</span> <span class="flag">-s</span> <span class="output">links.json</span>
+            </div>
+            <div class="block">
+                <span class="key">"github"</span>:   <a href="https://github.com/nesalot" style="color:#61afef;text-decoration:none;">github.com/nesalot</a><br>
+                <span class="key">"linkedin"</span>: <a href="https://linkedin.com/in/doesnotexist123456" style="color:#61afef;text-decoration:none">linkedin.com/in/jmerrell</a><br>
+                <span class="key">"email"</span>:    <a href="" style="color:#61afef;text-decoration:none">contact@jmerrell.dev</a>
+            </div>
+
+            <div class="line section-gap">
+                <span class="prompt-symbol">$</span> <span class="cursor"></span>
+            </div>
+
+            <img src="headshot.png">
+        </div>
+    </div>
+</body>
+</html>

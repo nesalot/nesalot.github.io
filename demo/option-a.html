@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #282c34;
+            font-family: JetBrains Mono, monospace;
+            color: #abb2bf;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .header {
+            margin-bottom: 60px;
+        }
+
+        .prompt {
+            color: #e4bb68;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .prompt span { color: #61afef; }
+
+        .header h1 {
+            font-size: 32px;
+            color: #e06c75;
+            font-weight: 500;
+        }
+
+        .header p {
+            color: #5c6370;
+            font-size: 14px;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .card {
+            background: #21252b;
+            border: 1px solid #3e4451;
+            border-radius: 6px;
+            padding: 24px;
+        }
+
+        .card div {
+            font-size: 13px;
+            color: #e4bb68;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 12px;
+            color: #5c6370;
+            line-height: 1.5;
+        }
+
+        .card a {
+            color: #61afef;
+            text-decoration: none;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 12px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill {
+            background: #2c313a;
+            border: 1px solid #3e4451;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #c678dd;
+        }
+
+        .links {
+            margin-top: 50px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .links a {
+            color: #61afef;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer {
+            margin-top: 80px;
+            padding-top: 20px;
+            border-top: 1px solid #3e4451;
+            font-size: 11px;
+            color: #3e4451;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="prompt">~ <span>jmerrell</span> $</div>
+            <h1>cat about.md</h1>
+            <p>Software developer. Building things on the internet.<br>Based somewhere with good coffee and decent wifi.</p>
+        </div>
+
+        <div class="section">
+            <div class="comment">// projects</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div>project_01</div>
+                    <p>A CLI tool for managing dotfiles across machines. Sync your setup everywhere.</p>
+                    <a href="https://github.com/nesalot/doesnotexist">View on GitHub</a>
+                </div>
+                <div class="card">
+                    <div>project_02</div>
+                    <p>Browser extension that replaces new tab with a minimal dashboard. No clutter.</p>
+                    <a href="#">Source Code</a>
+                </div>
+                <div class="card">
+                    <div>project_03</div>
+                    <p>Automated deployment pipeline for static sites. Push and forget.</p>
+                    <a href="">Live Demo</a>
+                </div>
+                <div class="card">
+                    <div>project_04</div>
+                    <p>API wrapper library for common weather services. Simple and lightweight.</p>
+                    <a href="htps://example.com">Documentation</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="comment">// skills</div>
+            <div class="skills-list">
+                <div class="skill">JavaScript</div>
+                <div class="skill">TypeScript</div>
+                <div class="skill">Python</div>
+                <div class="skill">React</div>
+                <div class="skill">Node.js</div>
+                <div class="skill">Docker</div>
+                <div class="skill">AWS</div>
+                <div class="skill">Git</div>
+            </div>
+        </div>
+
+        <div class="links">
+            <a href="https://github.com/nesalot">github</a>
+            <a href="https://linkedin.com/in/doesnotexist123456">linkedin</a>
+            <a href="mailto:">email</a>
+        </div>
+
+        <div class="footer">
+            <p>Last updated: 2024</p>
+        </div>
+    </div>
+</body>
+</html>
