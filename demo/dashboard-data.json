@@ -57,7 +57,7 @@
     "input_tokens": 267822,
     "output_tokens": 2477,
     "success": true,
-    "summary": "Blocked: mcp__github__update_issue not in allowlist. Tried to claim #48 skip nav link, #47 aria-label source links, #37 footer contrast — denied each time. No PRs opened."
+    "summary": "Blocked: mcp__github__update_issue not in allowlist. Tried to claim #48 skip nav link, #47 aria-label source links, #37 footer contrast \u2014 denied each time. No PRs opened."
   },
   {
     "timestamp": "2026-06-16T07:21:22Z",
@@ -78,5 +78,15 @@
     "output_tokens": 26123,
     "success": true,
     "summary": "Fixed 3 issues: #48 skip navigation link, #47 aria-label source links, #37 footer color contrast. Opened PRs #53, #54, #55."
+  },
+  {
+    "timestamp": "2026-06-16T10:42:42Z",
+    "agent": "manager",
+    "model": "",
+    "cost_usd": 0.0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "success": true,
+    "summary": ""
   }
 ]
