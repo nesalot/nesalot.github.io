@@ -16,81 +16,127 @@
         }
 
         .container {
-            max-width: 860px;
+            max-width: 880px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 50px 24px;
         }
 
-        /* --- Header --- */
-        .header {
-            margin-bottom: 50px;
+        /* --- Nav --- */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #3e4451;
         }
 
-        .prompt {
-            color: #5c6370;
-            font-size: 12px;
-            margin-bottom: 6px;
-        }
-
-        .prompt .path { color: #61afef; }
-        .prompt .symbol { color: #98c379; }
-
-        .header h1 {
-            font-size: 28px;
+        .nav .logo {
+            font-size: 16px;
             color: #e4bb68;
             font-weight: 500;
-            margin-bottom: 4px;
         }
 
-        .header h1 span { color: #e06c75; }
+        .nav .logo span { color: #e06c75; }
 
-        .header .tagline {
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
             color: #5c6370;
-            font-size: 13px;
-            line-height: 1.6;
-            margin-top: 10px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.2s;
         }
 
-        .header .tagline b { color: #abb2bf; font-weight: 500; }
+        .nav-links a:hover { color: #abb2bf; }
 
-        /* --- Terminal snippet --- */
-        .terminal-snippet {
+        /* --- Intro --- */
+        .intro {
+            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .intro-text h1 {
+            font-size: 24px;
+            color: #abb2bf;
+            font-weight: 500;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .intro-text h1 .hl { color: #e4bb68; }
+
+        .intro-text p {
+            font-size: 13px;
+            color: #5c6370;
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        .intro-text .cta {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .intro-text .cta a {
+            font-size: 11px;
+            padding: 8px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn-primary { background: #98c379; color: #282c34; }
+        .btn-outline { border: 1px solid #3e4451; color: #abb2bf; }
+
+        .intro-terminal {
             background: #1e2127;
             border: 1px solid #3e4451;
             border-radius: 6px;
-            margin: 30px 0;
+            width: 280px;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .terminal-bar {
+        .intro-terminal .bar {
             background: #21252b;
-            padding: 8px 14px;
+            padding: 8px 12px;
             display: flex;
-            align-items: center;
             gap: 6px;
         }
 
-        .tdot { width: 10px; height: 10px; border-radius: 50%; }
-        .tdot.r { background: #e06c75; }
-        .tdot.y { background: #e4bb68; }
-        .tdot.g { background: #98c379; }
+        .intro-terminal .bar i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+        .intro-terminal .bar .r { background: #e06c75; }
+        .intro-terminal .bar .y { background: #e4bb68; }
+        .intro-terminal .bar .g { background: #98c379; }
 
-        .terminal-bar span {
-            color: #5c6370;
+        .intro-terminal .content {
+            padding: 14px 16px;
             font-size: 11px;
-            margin-left: 10px;
+            line-height: 1.9;
+            color: #5c6370;
         }
 
-        .terminal-content {
-            padding: 16px 20px;
-            font-size: 12px;
-            line-height: 1.8;
+        .intro-terminal .content .c { color: #98c379; }
+        .intro-terminal .content .v { color: #abb2bf; }
+
+        .cursor {
+            display: inline-block;
+            width: 7px;
+            height: 13px;
+            background: #528bff;
+            animation: blink 1s infinite;
+            vertical-align: middle;
         }
 
-        .terminal-content .cmd { color: #98c379; }
-        .terminal-content .flag { color: #c678dd; }
-        .terminal-content .out { color: #abb2bf; }
-        .terminal-content .muted { color: #5c6370; }
+        @keyframes blink { 50% { opacity: 0; } }
 
         /* --- Section --- */
         .section {
@@ -327,34 +373,49 @@
 <body>
     <div class="container">
 
-        <!-- Header -->
-        <div class="header">
-            <div class="prompt"><span class="symbol">></span> <span class="path">~/about</span></div>
-            <h1>J. <span>Merrell</span></h1>
-            <div class="tagline">
-                <b>Software developer</b> building tools and automations.<br>
-                Interested in developer experience, AI-assisted workflows, and clean code.
+        <!-- Nav -->
+        <div class="nav">
+            <div class="logo">jmerrell<span>.dev</span></div>
+            <div class="nav-links">
+                <a href="#about">about</a>
+                <a href="#projects">projects</a>
+                <a href="#stack">stack</a>
+                <a href="htps://blog.jmerrell.dev">blog</a>
+                <a href="#contact">contact</a>
             </div>
         </div>
 
-        <!-- Quick terminal snippet -->
-        <div class="terminal-snippet">
-            <div class="terminal-bar">
-                <div class="tdot r"></div>
-                <div class="tdot y"></div>
-                <div class="tdot g"></div>
-                <span>zsh</span>
+        <!-- Intro -->
+        <div class="intro">
+            <div class="intro-text">
+                <h1>Hi, I'm <span class="hl">J. Merrell</span>.</h1>
+                <p>I'm a software developer who builds tools, automations, and web applications. I'm interested in developer experience, clean architecture, and using AI to make engineering teams more productive.</p>
+                <div class="cta">
+                    <a href="https://github.com/nesalot" class="btn-primary">View GitHub</a>
+                    <a href="" class="btn-outline">Download Resume</a>
+                </div>
             </div>
-            <div class="terminal-content">
-                <span class="cmd">$</span> <span class="out">curl -s api.github.com/users/nesalot | jq '.public_repos'</span><br>
-                <span class="muted">12</span><br>
-                <span class="cmd">$</span> <span class="out">uptime</span><br>
-                <span class="muted">coding since 2015</span>
+            <div class="intro-terminal">
+                <div class="bar">
+                    <i class="r"></i>
+                    <i class="y"></i>
+                    <i class="g"></i>
+                </div>
+                <div class="content">
+                    <span class="c">$</span> <span class="v">node info.js</span><br>
+                    <br>
+                    <span class="v">name:</span> J. Merrell<br>
+                    <span class="v">role:</span> Developer<br>
+                    <span class="v">focus:</span> Web, Tools, AI<br>
+                    <span class="v">status:</span> <span style="color:#98c379">available</span><br>
+                    <br>
+                    <span class="c">$</span> <span class="cursor"></span>
+                </div>
             </div>
         </div>
 
         <!-- Projects -->
-        <div class="section">
+        <div class="section" id="projects">
             <div class="section-header">
                 <span class="label">projects</span>
                 <div class="line"></div>
@@ -428,7 +489,7 @@
         </div>
 
         <!-- Experience -->
-        <div class="section">
+        <div class="section" id="about">
             <div class="section-header">
                 <span class="label">experience</span>
                 <div class="line"></div>
@@ -456,7 +517,7 @@
         </div>
 
         <!-- Skills -->
-        <div class="section">
+        <div class="section" id="stack">
             <div class="section-header">
                 <span class="label">stack</span>
                 <div class="line"></div>
@@ -493,7 +554,7 @@
         </div>
 
         <!-- Contact -->
-        <div class="section">
+        <div class="section" id="contact">
             <div class="section-header">
                 <span class="label">connect</span>
                 <div class="line"></div>
