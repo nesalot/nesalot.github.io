@@ -12,7 +12,7 @@ jobs:
   manager:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       issues: write
       id-token: write
     steps:
@@ -59,6 +59,116 @@ jobs:
             echo "::error::Manager agent failed — check logs above"
             exit 1
           fi
+
+      - name: Log manager run to dashboard
+        if: always()
+        run: |
+          LOG="/home/runner/work/_temp/claude-execution-output.json"
+          if [ ! -f "$LOG" ]; then exit 0; fi
+
+          COST=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          print(d.get('total_cost_usd', 0))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "0")
+
+          INPUT_TOKENS=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          u = d.get('usage', {})
+                          print(u.get('input_tokens', 0) + u.get('cache_read_input_tokens', 0) + u.get('cache_creation_input_tokens', 0))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "0")
+
+          OUTPUT_TOKENS=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          print(d.get('usage', {}).get('output_tokens', 0))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "0")
+
+          IS_ERROR=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          print('true' if d.get('is_error') else 'false')
+                          break
+                  except: pass
+          " 2>/dev/null || echo "true")
+
+          SUMMARY=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          r = d.get('result', '')
+                          r = r[:120].replace('\"', '\\\\\"').replace('\n', ' ')
+                          print(r)
+                          break
+                  except: pass
+          " 2>/dev/null || echo "")
+
+          MODEL=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'system' and d.get('subtype') == 'init':
+                          print(d.get('model', 'unknown'))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "unknown")
+
+          SUCCESS="true"
+          if [ "$IS_ERROR" = "true" ]; then SUCCESS="false"; fi
+
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          git pull origin master --rebase || true
+
+          python3 -c "
+          import json
+          with open('demo/dashboard-data.json', 'r') as f:
+              data = json.load(f)
+          data.append({
+              'timestamp': '$TIMESTAMP',
+              'agent': 'manager',
+              'model': '$MODEL',
+              'cost_usd': float('${COST:-0}'),
+              'input_tokens': int('${INPUT_TOKENS:-0}'),
+              'output_tokens': int('${OUTPUT_TOKENS:-0}'),
+              'success': $SUCCESS,
+              'summary': \"$SUMMARY\"
+          })
+          with open('demo/dashboard-data.json', 'w') as f:
+              json.dump(data, f, indent=2)
+          "
+
+          git add demo/dashboard-data.json
+          git commit -m "Update dashboard: manager run $(date -u +%Y-%m-%d)" || true
+          git push origin master || true
 
   # Step 2: Worker picks up agent-ready issues and opens PRs
   # Only runs after the manager finishes successfully
@@ -131,3 +241,113 @@ jobs:
             echo "::error::Worker agent failed — check logs above"
             exit 1
           fi
+
+      - name: Log worker run to dashboard
+        if: always()
+        run: |
+          LOG="/home/runner/work/_temp/claude-execution-output.json"
+          if [ ! -f "$LOG" ]; then exit 0; fi
+
+          COST=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          print(d.get('total_cost_usd', 0))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "0")
+
+          INPUT_TOKENS=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          u = d.get('usage', {})
+                          print(u.get('input_tokens', 0) + u.get('cache_read_input_tokens', 0) + u.get('cache_creation_input_tokens', 0))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "0")
+
+          OUTPUT_TOKENS=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          print(d.get('usage', {}).get('output_tokens', 0))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "0")
+
+          IS_ERROR=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          print('true' if d.get('is_error') else 'false')
+                          break
+                  except: pass
+          " 2>/dev/null || echo "true")
+
+          SUMMARY=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result':
+                          r = d.get('result', '')
+                          r = r[:120].replace('\"', '\\\\\"').replace('\n', ' ')
+                          print(r)
+                          break
+                  except: pass
+          " 2>/dev/null || echo "")
+
+          MODEL=$(python3 -c "
+          import json
+          with open('$LOG') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'system' and d.get('subtype') == 'init':
+                          print(d.get('model', 'unknown'))
+                          break
+                  except: pass
+          " 2>/dev/null || echo "unknown")
+
+          SUCCESS="true"
+          if [ "$IS_ERROR" = "true" ]; then SUCCESS="false"; fi
+
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          git pull origin master --rebase || true
+
+          python3 -c "
+          import json
+          with open('demo/dashboard-data.json', 'r') as f:
+              data = json.load(f)
+          data.append({
+              'timestamp': '$TIMESTAMP',
+              'agent': 'worker',
+              'model': '$MODEL',
+              'cost_usd': float('${COST:-0}'),
+              'input_tokens': int('${INPUT_TOKENS:-0}'),
+              'output_tokens': int('${OUTPUT_TOKENS:-0}'),
+              'success': $SUCCESS,
+              'summary': \"$SUMMARY\"
+          })
+          with open('demo/dashboard-data.json', 'w') as f:
+              json.dump(data, f, indent=2)
+          "
+
+          git add demo/dashboard-data.json
+          git commit -m "Update dashboard: worker run $(date -u +%Y-%m-%d)" || true
+          git push origin master || true
