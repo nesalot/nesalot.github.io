@@ -8,5 +8,15 @@
     "output_tokens": 5449,
     "success": true,
     "summary": "Triage complete. 18 issues already existed. 4 new issues created: #22 generic title, #23 placeholder companies, #24 heading hierarchy, #25 focus styles."
+  },
+  {
+    "timestamp": "2026-06-16T05:34:16Z",
+    "agent": "worker",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.8550932,
+    "input_tokens": 1035207,
+    "output_tokens": 23970,
+    "success": true,
+    "summary": "Fixed 3 issues: #5 broken crates.io link, #10 empty mailto href, #11 missing lang attribute. Opened PRs #29, #30, #31."
   }
 ]
