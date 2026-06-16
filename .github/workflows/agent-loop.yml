@@ -141,8 +141,8 @@ jobs:
                   except: pass
           " 2>/dev/null || echo "unknown")
 
-          SUCCESS="true"
-          if [ "$IS_ERROR" = "true" ]; then SUCCESS="false"; fi
+          SUCCESS="True"
+          if [ "$IS_ERROR" = "true" ]; then SUCCESS="False"; fi
 
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
@@ -323,8 +323,8 @@ jobs:
                   except: pass
           " 2>/dev/null || echo "unknown")
 
-          SUCCESS="true"
-          if [ "$IS_ERROR" = "true" ]; then SUCCESS="false"; fi
+          SUCCESS="True"
+          if [ "$IS_ERROR" = "true" ]; then SUCCESS="False"; fi
 
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
