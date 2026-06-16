@@ -1,0 +1,90 @@
+name: Manager - Scan & Triage
+
+on:
+  # Uncomment to re-enable daily schedule
+  # schedule:
+  #   - cron: '0 9 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Scan without creating issues (preview only)'
+        type: boolean
+        default: false
+
+jobs:
+  manager:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run Manager Agent
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Use the backlog manager skill to triage this repository.
+
+            1. Read .claude/skills/backlog-manager.md to understand your job
+            2. Read CLAUDE.md to understand the project guardrails
+            3. Fetch ALL existing GitHub Issues (open AND closed) and review their titles and bodies
+            4. Build a checklist of every problem already tracked — you will use this to avoid duplicates
+            5. Scan demo/index.html for all bugs, accessibility issues, and code quality problems
+            6. For each problem found, check your list: if ANY existing issue covers the same HTML element or line of code, skip it — even if your title would be worded differently
+            7. Create a GitHub Issue only for genuinely new problems, with the correct labels applied
+            8. Do NOT modify any files — only create and label issues
+
+            Work through the file systematically from top to bottom. Be thorough but do NOT create duplicates.
+
+            ${{ inputs.dry_run == true && 'DRY RUN MODE: Do NOT create any issues. Instead, list what you WOULD create with their titles, labels, and descriptions. This is a preview only.' || '' }}
+          claude_args: |
+            --model claude-sonnet-4-6
+            --allowedTools "Read,Glob,Grep,mcp__github__list_issues,mcp__github__search_issues,mcp__github__create_issue,mcp__github__get_label"
+          settings: |
+            {
+              "permissions": {
+                "allow": [
+                  "Read",
+                  "Glob",
+                  "Grep",
+                  "ToolSearch",
+                  "mcp__github__list_issues",
+                  "mcp__github__search_issues",
+                  "mcp__github__create_issue",
+                  "mcp__github__get_label"
+                ]
+              }
+            }
+          show_full_output: true
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Verify manager succeeded
+        run: |
+          python3 -c "
+          import json
+          with open('/home/runner/work/_temp/claude-execution-output.json') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result' and d.get('is_error'):
+                          print('::error::Manager agent failed — check logs above')
+                          exit(1)
+                  except: pass
+          "
+
+      - name: Log to dashboard
+        if: always()
+        uses: ./.github/actions/log-dashboard
+        with:
+          agent-name: manager
+          github-token: ${{ github.token }}
