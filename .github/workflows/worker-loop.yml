@@ -1,0 +1,55 @@
+name: Worker Loop - Fix Issues & Open PRs
+
+on:
+  # Run daily at 10am UTC (1 hour after manager)
+  schedule:
+    - cron: '0 10 * * *'
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+jobs:
+  worker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Worker Agent
+        uses: anthropics/claude-code-action@v1
+        with:
+          model: "claude-sonnet-4-20250514"
+          prompt: |
+            Use the worker skill to fix agent-ready issues in this repository.
+
+            1. Read .claude/skills/worker.md to understand your workflow
+            2. Read CLAUDE.md to understand the project guardrails
+            3. Query GitHub Issues for open issues labeled "agent:ready" and "risk:low"
+            4. For each issue (maximum 3):
+               a. Read the issue details
+               b. Create a branch from master (fix/issue-{number}-{short-description})
+               c. Implement the fix — only modify files in demo/
+               d. Review your own diff to make sure it's correct and minimal
+               e. Open a pull request targeting master with "Fixes #{number}" in the body
+               f. Comment on the original issue with a link to the PR
+            5. Work on issues one at a time, sequentially
+
+            IMPORTANT: Never push to master. Always use branches and PRs.
+          allowed_tools: |
+            Read
+            Edit
+            Write
+            Glob
+            Grep
+            Bash
+            mcp__github__list_issues
+            mcp__github__issue_read
+            mcp__github__issue_write
+            mcp__github__add_issue_comment
+            mcp__github__create_pull_request
+            mcp__github__create_branch
+            mcp__github__push_files
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
