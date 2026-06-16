@@ -34,15 +34,17 @@ jobs:
 
             1. Read .claude/skills/backlog-manager.md to understand your job
             2. Read CLAUDE.md to understand the project guardrails
-            3. Check existing open issues to avoid creating duplicates
-            4. Scan demo/index.html for all bugs, accessibility issues, and code quality problems
-            5. Create a GitHub Issue for each problem found, with the correct labels applied
-            6. Do NOT modify any files — only create and label issues
+            3. Fetch ALL existing GitHub Issues (open AND closed) and review their titles and bodies
+            4. Build a checklist of every problem already tracked — you will use this to avoid duplicates
+            5. Scan demo/index.html for all bugs, accessibility issues, and code quality problems
+            6. For each problem found, check your list: if ANY existing issue covers the same HTML element or line of code, skip it — even if your title would be worded differently
+            7. Create a GitHub Issue only for genuinely new problems, with the correct labels applied
+            8. Do NOT modify any files — only create and label issues
 
-            Work through the file systematically from top to bottom. Be thorough.
+            Work through the file systematically from top to bottom. Be thorough but do NOT create duplicates.
           claude_args: |
             --model claude-sonnet-4-6
-            --allowedTools "Read,Glob,Grep,mcp__github__list_issues,mcp__github__create_issue,mcp__github__get_label"
+            --allowedTools "Read,Glob,Grep,mcp__github__list_issues,mcp__github__search_issues,mcp__github__create_issue,mcp__github__get_label"
           settings: |
             {
               "permissions": {
@@ -52,6 +54,7 @@ jobs:
                   "Grep",
                   "ToolSearch",
                   "mcp__github__list_issues",
+                  "mcp__github__search_issues",
                   "mcp__github__create_issue",
                   "mcp__github__get_label"
                 ]
