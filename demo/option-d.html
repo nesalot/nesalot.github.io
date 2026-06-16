@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #282c34;
+            font-family: JetBrains Mono, monospace;
+            color: #abb2bf;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        /* --- Header --- */
+        .header {
+            margin-bottom: 50px;
+        }
+
+        .prompt {
+            color: #5c6370;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .prompt .path { color: #61afef; }
+        .prompt .symbol { color: #98c379; }
+
+        .header h1 {
+            font-size: 28px;
+            color: #e4bb68;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .header h1 span { color: #e06c75; }
+
+        .header .tagline {
+            color: #5c6370;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .header .tagline b { color: #abb2bf; font-weight: 500; }
+
+        /* --- Terminal snippet --- */
+        .terminal-snippet {
+            background: #1e2127;
+            border: 1px solid #3e4451;
+            border-radius: 6px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .terminal-bar {
+            background: #21252b;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tdot { width: 10px; height: 10px; border-radius: 50%; }
+        .tdot.r { background: #e06c75; }
+        .tdot.y { background: #e4bb68; }
+        .tdot.g { background: #98c379; }
+
+        .terminal-bar span {
+            color: #5c6370;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        .terminal-content {
+            padding: 16px 20px;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .terminal-content .cmd { color: #98c379; }
+        .terminal-content .flag { color: #c678dd; }
+        .terminal-content .out { color: #abb2bf; }
+        .terminal-content .muted { color: #5c6370; }
+
+        /* --- Section --- */
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-header .label {
+            color: #c678dd;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: #3e4451;
+        }
+
+        /* --- Project cards --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .card {
+            background: #21252b;
+            border: 1px solid #3e4451;
+            border-radius: 6px;
+            padding: 22px;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover { border-color: #61afef; }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-name {
+            font-size: 14px;
+            color: #e4bb68;
+            font-weight: 500;
+        }
+
+        .card-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .badge-active { background: #2a3a2a; color: #98c379; border: 1px solid #3a4a3a; }
+        .badge-shipped { background: #2a2a3a; color: #61afef; border: 1px solid #3a3a4a; }
+        .badge-wip { background: #3a3226; color: #e4bb68; border: 1px solid #4a4236; }
+        .badge-archived { background: #2a2a2a; color: #5c6370; border: 1px solid #3e4451; }
+
+        .card p {
+            font-size: 12px;
+            color: #5c6370;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .card-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .card-tech span {
+            font-size: 10px;
+            color: #abb2bf;
+            background: #282c34;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+
+        .card-links {
+            display: flex;
+            gap: 14px;
+        }
+
+        .card-links a {
+            color: #61afef;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .card-links a:hover { text-decoration: underline; }
+
+        /* --- Experience timeline --- */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 6px;
+            bottom: 6px;
+            width: 1px;
+            background: #3e4451;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+
+        .timeline-item:last-child { margin-bottom: 0; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 6px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #61afef;
+            border: 2px solid #282c34;
+        }
+
+        .timeline-role {
+            font-size: 13px;
+            color: #e4bb68;
+            font-weight: 500;
+        }
+
+        .timeline-company {
+            font-size: 12px;
+            color: #61afef;
+        }
+
+        .timeline-date {
+            font-size: 11px;
+            color: #5c6370;
+            margin-top: 2px;
+        }
+
+        .timeline-desc {
+            font-size: 12px;
+            color: #5c6370;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* --- Skills --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .skill-group h4 {
+            font-size: 11px;
+            color: #e06c75;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-group ul {
+            list-style: none;
+        }
+
+        .skill-group li {
+            font-size: 12px;
+            color: #abb2bf;
+            padding: 3px 0;
+        }
+
+        .skill-group li::before {
+            content: '>';
+            color: #98c379;
+            margin-right: 8px;
+        }
+
+        /* --- Contact --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .contact-item {
+            background: #21252b;
+            border: 1px solid #3e4451;
+            border-radius: 6px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .contact-item .contact-label {
+            font-size: 10px;
+            color: #5c6370;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .contact-item a {
+            color: #61afef;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #3e4451;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #3e4451;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="prompt"><span class="symbol">></span> <span class="path">~/about</span></div>
+            <h1>J. <span>Merrell</span></h1>
+            <div class="tagline">
+                <b>Software developer</b> building tools and automations.<br>
+                Interested in developer experience, AI-assisted workflows, and clean code.
+            </div>
+        </div>
+
+        <!-- Quick terminal snippet -->
+        <div class="terminal-snippet">
+            <div class="terminal-bar">
+                <div class="tdot r"></div>
+                <div class="tdot y"></div>
+                <div class="tdot g"></div>
+                <span>zsh</span>
+            </div>
+            <div class="terminal-content">
+                <span class="cmd">$</span> <span class="out">curl -s api.github.com/users/nesalot | jq '.public_repos'</span><br>
+                <span class="muted">12</span><br>
+                <span class="cmd">$</span> <span class="out">uptime</span><br>
+                <span class="muted">coding since 2015</span>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="section">
+            <div class="section-header">
+                <span class="label">projects</span>
+                <div class="line"></div>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-top">
+                        <span class="card-name">dotfile-sync</span>
+                        <span class="card-badge badge-active">active</span>
+                    </div>
+                    <p>CLI tool for managing dotfiles across machines. Symlinks, templating, and encrypted secrets.</p>
+                    <div class="card-tech">
+                        <span>Rust</span>
+                        <span>TOML</span>
+                        <span>CLI</span>
+                    </div>
+                    <div class="card-links">
+                        <a href="https://github.com/nesalot/doesnotexist">source</a>
+                        <a href="htps://crates.io/doesnotexist">crates.io</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top">
+                        <span class="card-name">minimal-tab</span>
+                        <span class="card-badge badge-shipped">shipped</span>
+                    </div>
+                    <p>Browser extension replacing new tab with a clean dashboard. Weather, bookmarks, and a clock.</p>
+                    <div class="card-tech">
+                        <span>JavaScript</span>
+                        <span>Chrome API</span>
+                        <span>CSS</span>
+                    </div>
+                    <div class="card-links">
+                        <a href="#">source</a>
+                        <a href="#">chrome store</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top">
+                        <span class="card-name">deploy-pipe</span>
+                        <span class="card-badge badge-wip">wip</span>
+                    </div>
+                    <p>Zero-config deployment pipeline for static sites. Git push and it handles the rest.</p>
+                    <div class="card-tech">
+                        <span>Go</span>
+                        <span>Docker</span>
+                        <span>GitHub Actions</span>
+                    </div>
+                    <div class="card-links">
+                        <a href="https://github.com/nesalot/doesnotexist2">source</a>
+                        <a href="">docs</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top">
+                        <span class="card-name">weather-api</span>
+                        <span class="card-badge badge-archived">archived</span>
+                    </div>
+                    <p>Lightweight API wrapper that unifies responses from multiple weather providers into one schema.</p>
+                    <div class="card-tech">
+                        <span>TypeScript</span>
+                        <span>Node.js</span>
+                        <span>REST</span>
+                    </div>
+                    <div class="card-links">
+                        <a href="htps://github.com/nesalot/doesnotexist3">source</a>
+                        <a href="https://npmjs.com/doesnotexist">npm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="section">
+            <div class="section-header">
+                <span class="label">experience</span>
+                <div class="line"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-role">Software Developer</div>
+                    <div class="timeline-company">Freelance / Independent</div>
+                    <div class="timeline-date">2022 - present</div>
+                    <div class="timeline-desc">Building tools, automations, and web applications. Working with startups on MVP development and infrastructure.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-role">Frontend Engineer</div>
+                    <div class="timeline-company">Tech Co</div>
+                    <div class="timeline-date">2019 - 2022</div>
+                    <div class="timeline-desc">Built and maintained React component library used across 4 product teams. Led migration from class components to hooks.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-role">Junior Developer</div>
+                    <div class="timeline-company">Agency Studio</div>
+                    <div class="timeline-date">2017 - 2019</div>
+                    <div class="timeline-desc">Full-stack development on client projects. WordPress, custom themes, and early React adoption.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="section">
+            <div class="section-header">
+                <span class="label">stack</span>
+                <div class="line"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-group">
+                    <h4>Languages</h4>
+                    <ul>
+                        <li>JavaScript / TypeScript</li>
+                        <li>Python</li>
+                        <li>Rust</li>
+                        <li>Go</li>
+                    </ul>
+                </div>
+                <div class="skill-group">
+                    <h4>Frontend</h4>
+                    <ul>
+                        <li>React</li>
+                        <li>Next.js</li>
+                        <li>Tailwind CSS</li>
+                        <li>HTML / CSS</li>
+                    </ul>
+                </div>
+                <div class="skill-group">
+                    <h4>Infra</h4>
+                    <ul>
+                        <li>Docker</li>
+                        <li>AWS</li>
+                        <li>GitHub Actions</li>
+                        <li>Vercel</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="section">
+            <div class="section-header">
+                <span class="label">connect</span>
+                <div class="line"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-label">GitHub</div>
+                    <a href="https://github.com/nesalot">@nesalot</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">LinkedIn</div>
+                    <a href="https://linkedin.com/in/doesnotexist123456">jmerrell</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Email</div>
+                    <a href="mailto:">say hello</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span>Built with HTML + CSS</span>
+            <span>Last updated: sometime in 2024</span>
+        </div>
+
+    </div>
+</body>
+</html>
