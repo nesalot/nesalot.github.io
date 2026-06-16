@@ -193,7 +193,7 @@ jobs:
             IMPORTANT: You MUST claim each issue (step 4b) before writing any code.
           claude_args: |
             --model claude-sonnet-4-6
-            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),Bash(git status),mcp__github__list_issues,mcp__github__issue_read,mcp__github__issue_write,mcp__github__create_issue,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),Bash(git status),mcp__github__list_issues,mcp__github__issue_read,mcp__github__issue_write,mcp__github__update_issue,mcp__github__create_issue,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
           settings: |
             {
               "permissions": {
@@ -213,6 +213,7 @@ jobs:
                   "mcp__github__list_issues",
                   "mcp__github__issue_read",
                   "mcp__github__issue_write",
+                  "mcp__github__update_issue",
                   "mcp__github__create_issue",
                   "mcp__github__add_issue_comment",
                   "mcp__github__create_pull_request",
