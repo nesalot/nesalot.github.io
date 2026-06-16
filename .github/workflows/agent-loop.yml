@@ -1,0 +1,92 @@
+name: Agent Loop - Scan, Triage & Fix
+
+on:
+  # Run daily at 9am UTC
+  schedule:
+    - cron: '0 9 * * *'
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+jobs:
+  # Step 1: Manager scans the site and creates labeled issues
+  manager:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Manager Agent
+        uses: anthropics/claude-code-action@v1
+        with:
+          model: "claude-sonnet-4-20250514"
+          prompt: |
+            Use the backlog manager skill to triage this repository.
+
+            1. Read .claude/skills/backlog-manager.md to understand your job
+            2. Read CLAUDE.md to understand the project guardrails
+            3. Check existing open issues to avoid creating duplicates
+            4. Scan demo/index.html for all bugs, accessibility issues, and code quality problems
+            5. Create a GitHub Issue for each problem found, with the correct labels applied
+            6. Do NOT modify any files — only create and label issues
+
+            Work through the file systematically from top to bottom. Be thorough.
+          allowed_tools: |
+            Read
+            Glob
+            Grep
+            mcp__github__list_issues
+            mcp__github__issue_write
+            mcp__github__get_label
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+  # Step 2: Worker picks up agent-ready issues and opens PRs
+  # Only runs after the manager finishes successfully
+  worker:
+    needs: manager
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Worker Agent
+        uses: anthropics/claude-code-action@v1
+        with:
+          model: "claude-sonnet-4-20250514"
+          prompt: |
+            Use the worker skill to fix agent-ready issues in this repository.
+
+            1. Read .claude/skills/worker.md to understand your workflow
+            2. Read CLAUDE.md to understand the project guardrails
+            3. Query GitHub Issues for open issues labeled "agent:ready" and "risk:low"
+            4. For each issue (maximum 3):
+               a. Read the issue details
+               b. Create a branch from master (fix/issue-{number}-{short-description})
+               c. Implement the fix — only modify files in demo/
+               d. Review your own diff to make sure it's correct and minimal
+               e. Open a pull request targeting master with "Fixes #{number}" in the body
+               f. Comment on the original issue with a link to the PR
+            5. Work on issues one at a time, sequentially
+
+            IMPORTANT: Never push to master. Always use branches and PRs.
+          allowed_tools: |
+            Read
+            Edit
+            Write
+            Glob
+            Grep
+            Bash
+            mcp__github__list_issues
+            mcp__github__issue_read
+            mcp__github__issue_write
+            mcp__github__add_issue_comment
+            mcp__github__create_pull_request
+            mcp__github__create_branch
+            mcp__github__push_files
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
