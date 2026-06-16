@@ -180,8 +180,8 @@ jobs:
             2. Read CLAUDE.md to understand the project guardrails
             3. Query GitHub Issues for open issues labeled "agent:ready" and "risk:low"
             4. For each issue (maximum 3):
-               a. Read the issue details
-               b. Claim the issue — update its labels to replace "agent:ready" with "agent:in-progress" (keep all other labels)
+               a. Read the issue details and note its current labels
+               b. FIRST: Claim the issue using mcp__github__issue_write — set labels to replace "agent:ready" with "agent:in-progress" while keeping all other labels. Do NOT skip this step.
                c. Create a branch from master (fix/issue-{number}-{short-description})
                d. Implement the fix — only modify files in demo/
                e. Review your own diff to make sure it's correct and minimal
@@ -190,6 +190,7 @@ jobs:
             5. Work on issues one at a time, sequentially
 
             IMPORTANT: Never push to master. Always use branches and PRs.
+            IMPORTANT: You MUST claim each issue (step 4b) before writing any code.
           claude_args: |
             --model claude-sonnet-4-6
             --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),Bash(git status),mcp__github__list_issues,mcp__github__issue_read,mcp__github__issue_write,mcp__github__create_issue,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
