@@ -27,7 +27,7 @@
     "input_tokens": 339583,
     "output_tokens": 12170,
     "success": true,
-    "summary": "All 5 new issues created: #37 footer contrast, #38 heading hierarchy, #39 aria-hidden terminal dots, #40 reduced motion, #41 dead flex-shrink."
+    "summary": "5 new issues created: #37 footer contrast, #38 heading hierarchy, #39 aria-hidden terminal dots, #40 reduced motion, #41 dead flex-shrink."
   },
   {
     "timestamp": "2026-06-16T06:30:20Z",
@@ -57,7 +57,7 @@
     "input_tokens": 267822,
     "output_tokens": 2477,
     "success": true,
-    "summary": "Blocked on permissions — mcp__github__update_issue tool not in allowlist. Tried 3 times to claim issue #48, denied each time."
+    "summary": "Blocked: mcp__github__update_issue not in allowlist. Tried to claim #48 skip nav link, #47 aria-label source links, #37 footer contrast — denied each time. No PRs opened."
   },
   {
     "timestamp": "2026-06-16T07:21:22Z",
@@ -67,7 +67,7 @@
     "input_tokens": 302293,
     "output_tokens": 13037,
     "success": true,
-    "summary": "Triage complete. Scanned demo/index.html against all 32 existing issues and created 2 new issues."
+    "summary": "Triage complete. Scanned demo/index.html against 32 existing issues. Created 2 new issues: #51 skip nav for screen readers, #52 responsive media queries."
   },
   {
     "timestamp": "2026-06-16T07:27:54Z",
@@ -77,6 +77,6 @@
     "input_tokens": 1294163,
     "output_tokens": 26123,
     "success": true,
-    "summary": "All 3 issues completed. Fixed and opened PRs for 3 agent:ready issues."
+    "summary": "Fixed 3 issues: #48 skip navigation link, #47 aria-label source links, #37 footer color contrast. Opened PRs #53, #54, #55."
   }
 ]
