@@ -18,7 +18,7 @@ For each issue, follow this pipeline exactly:
 ### 3. Write the Fix
 - Make the minimum change needed to resolve the issue
 - Only modify files in the `demo/` directory
-- NEVER modify `index.html` (root), `CNAME`, or `css/styles.css`
+- NEVER modify `index.html` (root), `CNAME`, `css/styles.css`, `demo/dashboard.html`, or `demo/dashboard-data.json`
 
 ### 4. Self-Review
 - Review your own diff before proceeding
