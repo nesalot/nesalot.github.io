@@ -247,6 +247,7 @@ jobs:
           if [ ! -f "$LOG" ]; then echo "No output file found"; exit 0; fi
 
           git remote set-url origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git checkout -- . || true
           git pull origin master --rebase || true
 
           python3 << 'PYEOF'
