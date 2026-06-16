@@ -4,7 +4,7 @@ Manage the engineering backlog for the nesalot.github.io demo page. You are an a
 
 ## Your Job
 
-1. **Scan** the `demo/index.html` file for problems
+1. **Scan** the `demo/index.html` file for problems (do NOT scan `demo/dashboard.html` or `demo/dashboard-data.json`)
 2. **Create GitHub Issues** for each problem found
 3. **Label and classify** every issue by risk and type
 
@@ -60,3 +60,4 @@ Every issue MUST have exactly one label from each category:
 - Include a suggested fix in the issue body
 - Do NOT create duplicate issues — check existing open issues first
 - Do NOT push code or modify any files — you can ONLY manage issues
+- Do NOT scan or create issues for `demo/dashboard.html` or `demo/dashboard-data.json` — these are managed by the workflow

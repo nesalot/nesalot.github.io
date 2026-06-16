@@ -8,6 +8,8 @@ This is a GitHub Pages site served from the `master` branch at nesalot.github.io
 
 - `index.html` — Main landing page (DO NOT MODIFY)
 - `demo/index.html` — Demo portfolio page (agent work happens here)
+- `demo/dashboard.html` — Agent loop dashboard (DO NOT MODIFY)
+- `demo/dashboard-data.json` — Dashboard data, updated by workflow (DO NOT MODIFY)
 - `css/styles.css` — Styles for the landing page
 - `CNAME` — Custom domain config (DO NOT MODIFY)
 - `.claude/skills/` — Agent skills for the loop system
@@ -39,7 +41,7 @@ Issues use these labels for coordination:
 ## Guardrails
 
 - NEVER push directly to `master`
-- NEVER modify `index.html` (the main landing page) or `CNAME`
+- NEVER modify `index.html` (the main landing page), `CNAME`, `demo/dashboard.html`, or `demo/dashboard-data.json`
 - ALWAYS create a branch and open a PR for changes
 - ONLY work on issues labeled `agent:ready`
 - Maximum 3 issues per worker run
