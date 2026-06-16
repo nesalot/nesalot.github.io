@@ -34,7 +34,22 @@ jobs:
 
             Work through the file systematically from top to bottom. Be thorough.
           claude_args: |
-            --allowedTools "Read,Glob,Grep,mcp__github__list_issues,mcp__github__issue_write,mcp__github__get_label"
+            --model claude-sonnet-4-6
+            --allowedTools "Read,Glob,Grep,mcp__github__list_issues,mcp__github__create_issue,mcp__github__get_label"
+          settings: |
+            {
+              "permissions": {
+                "allow": [
+                  "Read",
+                  "Glob",
+                  "Grep",
+                  "ToolSearch",
+                  "mcp__github__list_issues",
+                  "mcp__github__create_issue",
+                  "mcp__github__get_label"
+                ]
+              }
+            }
           show_full_output: true
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
@@ -79,7 +94,34 @@ jobs:
 
             IMPORTANT: Never push to master. Always use branches and PRs.
           claude_args: |
-            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),mcp__github__list_issues,mcp__github__issue_read,mcp__github__issue_write,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
+            --model claude-sonnet-4-6
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),Bash(git status),mcp__github__list_issues,mcp__github__issue_read,mcp__github__create_issue,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
+          settings: |
+            {
+              "permissions": {
+                "allow": [
+                  "Read",
+                  "Edit",
+                  "Write",
+                  "Glob",
+                  "Grep",
+                  "ToolSearch",
+                  "Bash(git checkout -b *)",
+                  "Bash(git add *)",
+                  "Bash(git commit *)",
+                  "Bash(git push *)",
+                  "Bash(git diff *)",
+                  "Bash(git status)",
+                  "mcp__github__list_issues",
+                  "mcp__github__issue_read",
+                  "mcp__github__create_issue",
+                  "mcp__github__add_issue_comment",
+                  "mcp__github__create_pull_request",
+                  "mcp__github__create_branch",
+                  "mcp__github__push_files"
+                ]
+              }
+            }
           show_full_output: true
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
