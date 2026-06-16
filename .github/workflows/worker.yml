@@ -1,0 +1,113 @@
+name: Worker - Fix Issues
+
+on:
+  # Uncomment to re-enable daily schedule
+  # schedule:
+  #   - cron: '0 10 * * *'
+  workflow_dispatch:
+    inputs:
+      max_issues:
+        description: 'Maximum issues to fix (1-5)'
+        type: number
+        default: 3
+      issue_number:
+        description: 'Target a specific issue number (optional)'
+        type: string
+        default: ''
+
+jobs:
+  worker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run Worker Agent
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Use the worker skill to fix agent-ready issues in this repository.
+
+            1. Read .claude/skills/worker.md to understand your workflow
+            2. Read CLAUDE.md to understand the project guardrails
+            3. Query GitHub Issues for open issues labeled "agent:ready" and "risk:low"
+            4. For each issue (maximum ${{ inputs.max_issues }}):
+               a. Read the issue details and note its current labels
+               b. FIRST: Claim the issue using mcp__github__issue_write — set labels to replace "agent:ready" with "agent:in-progress" while keeping all other labels. Do NOT skip this step.
+               c. Create a branch from master (fix/issue-{number}-{short-description})
+               d. Implement the fix — only modify files in demo/
+               e. Review your own diff to make sure it's correct and minimal
+               f. Open a pull request targeting master with "Fixes #{number}" in the body
+               g. Comment on the original issue with a link to the PR
+            5. Work on issues one at a time, sequentially
+
+            IMPORTANT: Never push to master. Always use branches and PRs.
+            IMPORTANT: You MUST claim each issue (step 4b) before writing any code.
+
+            ${{ inputs.issue_number != '' && format('SPECIFIC ISSUE: Only work on issue #{0}. Do not scan for other issues.', inputs.issue_number) || '' }}
+          claude_args: |
+            --model claude-sonnet-4-6
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git checkout -b *),Bash(git add *),Bash(git commit *),Bash(git push *),Bash(git diff *),Bash(git status),mcp__github__list_issues,mcp__github__issue_read,mcp__github__issue_write,mcp__github__update_issue,mcp__github__create_issue,mcp__github__add_issue_comment,mcp__github__create_pull_request,mcp__github__create_branch,mcp__github__push_files"
+          settings: |
+            {
+              "permissions": {
+                "allow": [
+                  "Read",
+                  "Edit",
+                  "Write",
+                  "Glob",
+                  "Grep",
+                  "ToolSearch",
+                  "Bash(git checkout -b *)",
+                  "Bash(git add *)",
+                  "Bash(git commit *)",
+                  "Bash(git push *)",
+                  "Bash(git diff *)",
+                  "Bash(git status)",
+                  "mcp__github__list_issues",
+                  "mcp__github__issue_read",
+                  "mcp__github__issue_write",
+                  "mcp__github__update_issue",
+                  "mcp__github__create_issue",
+                  "mcp__github__add_issue_comment",
+                  "mcp__github__create_pull_request",
+                  "mcp__github__create_branch",
+                  "mcp__github__push_files"
+                ]
+              }
+            }
+          show_full_output: true
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Verify worker succeeded
+        run: |
+          python3 -c "
+          import json
+          with open('/home/runner/work/_temp/claude-execution-output.json') as f:
+              for line in f:
+                  try:
+                      d = json.loads(line)
+                      if d.get('type') == 'result' and d.get('is_error'):
+                          print('::error::Worker agent failed — check logs above')
+                          exit(1)
+                  except: pass
+          "
+
+      - name: Log to dashboard
+        if: always()
+        uses: ./.github/actions/log-dashboard
+        with:
+          agent-name: worker
+          github-token: ${{ github.token }}
