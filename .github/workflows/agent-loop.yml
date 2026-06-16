@@ -87,27 +87,58 @@ jobs:
           git pull origin master --rebase || true
 
           python3 << 'PYEOF'
-          import json, sys
+          import json, sys, os, glob
           from datetime import datetime, timezone
 
           log_path = "/home/runner/work/_temp/claude-execution-output.json"
           dashboard_path = "demo/dashboard-data.json"
 
+          # Debug: show file info
+          if os.path.exists(log_path):
+              size = os.path.getsize(log_path)
+              print(f"Log file exists, size: {size} bytes")
+              with open(log_path) as f:
+                  lines = f.readlines()
+              print(f"Total lines: {len(lines)}")
+              # Show types of objects found
+              types_found = set()
+              for line in lines:
+                  try:
+                      d = json.loads(line)
+                      if isinstance(d, dict):
+                          t = d.get("type", "no-type")
+                          types_found.add(t)
+                  except:
+                      pass
+              print(f"Object types found: {types_found}")
+              # Show first and last 3 lines (truncated)
+              for i, line in enumerate(lines[:3]):
+                  print(f"Line {i}: {line.strip()[:200]}")
+              if len(lines) > 6:
+                  print("...")
+              for i, line in enumerate(lines[-3:], len(lines)-3):
+                  print(f"Line {i}: {line.strip()[:200]}")
+          else:
+              # Check if file is elsewhere
+              tmp_files = glob.glob("/home/runner/work/_temp/claude*")
+              print(f"File not found at {log_path}")
+              print(f"Claude files in _temp: {tmp_files}")
+              sys.exit(0)
+
           model = "unknown"
           result = None
 
-          with open(log_path) as f:
-              for line in f:
-                  try:
-                      d = json.loads(line)
-                  except:
-                      continue
-                  if not isinstance(d, dict):
-                      continue
-                  if d.get("type") == "system" and d.get("subtype") == "init":
-                      model = d.get("model", "unknown")
-                  if d.get("type") == "result":
-                      result = d
+          for line in lines:
+              try:
+                  d = json.loads(line)
+              except:
+                  continue
+              if not isinstance(d, dict):
+                  continue
+              if d.get("type") == "system" and d.get("subtype") == "init":
+                  model = d.get("model", "unknown")
+              if d.get("type") == "result":
+                  result = d
 
           if result is None:
               print("WARNING: No result object found in output log")
@@ -247,30 +278,59 @@ jobs:
           if [ ! -f "$LOG" ]; then echo "No output file found"; exit 0; fi
 
           git remote set-url origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git checkout -- . || true
           git pull origin master --rebase || true
 
           python3 << 'PYEOF'
-          import json, sys
+          import json, sys, os, glob
           from datetime import datetime, timezone
 
           log_path = "/home/runner/work/_temp/claude-execution-output.json"
           dashboard_path = "demo/dashboard-data.json"
 
+          # Debug: show file info
+          if os.path.exists(log_path):
+              size = os.path.getsize(log_path)
+              print(f"Log file exists, size: {size} bytes")
+              with open(log_path) as f:
+                  lines = f.readlines()
+              print(f"Total lines: {len(lines)}")
+              types_found = set()
+              for line in lines:
+                  try:
+                      d = json.loads(line)
+                      if isinstance(d, dict):
+                          t = d.get("type", "no-type")
+                          types_found.add(t)
+                  except:
+                      pass
+              print(f"Object types found: {types_found}")
+              for i, line in enumerate(lines[:3]):
+                  print(f"Line {i}: {line.strip()[:200]}")
+              if len(lines) > 6:
+                  print("...")
+              for i, line in enumerate(lines[-3:], len(lines)-3):
+                  print(f"Line {i}: {line.strip()[:200]}")
+          else:
+              tmp_files = glob.glob("/home/runner/work/_temp/claude*")
+              print(f"File not found at {log_path}")
+              print(f"Claude files in _temp: {tmp_files}")
+              sys.exit(0)
+
           model = "unknown"
           result = None
 
-          with open(log_path) as f:
-              for line in f:
-                  try:
-                      d = json.loads(line)
-                  except:
-                      continue
-                  if not isinstance(d, dict):
-                      continue
-                  if d.get("type") == "system" and d.get("subtype") == "init":
-                      model = d.get("model", "unknown")
-                  if d.get("type") == "result":
-                      result = d
+          for line in lines:
+              try:
+                  d = json.loads(line)
+              except:
+                  continue
+              if not isinstance(d, dict):
+                  continue
+              if d.get("type") == "system" and d.get("subtype") == "init":
+                  model = d.get("model", "unknown")
+              if d.get("type") == "result":
+                  result = d
 
           if result is None:
               print("WARNING: No result object found in output log")
