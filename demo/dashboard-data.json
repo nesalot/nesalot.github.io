@@ -18,5 +18,65 @@
     "output_tokens": 23970,
     "success": true,
     "summary": "Fixed 3 issues: #5 broken crates.io link, #10 empty mailto href, #11 missing lang attribute. Opened PRs #29, #30, #31."
+  },
+  {
+    "timestamp": "2026-06-16T06:25:20Z",
+    "agent": "manager",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.4191597,
+    "input_tokens": 339583,
+    "output_tokens": 12170,
+    "success": true,
+    "summary": "All 5 new issues created: #37 footer contrast, #38 heading hierarchy, #39 aria-hidden terminal dots, #40 reduced motion, #41 dead flex-shrink."
+  },
+  {
+    "timestamp": "2026-06-16T06:30:20Z",
+    "agent": "worker",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.9619198,
+    "input_tokens": 2115782,
+    "output_tokens": 11770,
+    "success": true,
+    "summary": "Fixed 3 issues: #39 aria-hidden terminal dots, #40 prefers-reduced-motion, #41 remove dead flex-shrink. Opened PRs #42, #43, #44."
+  },
+  {
+    "timestamp": "2026-06-16T07:06:44Z",
+    "agent": "manager",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.41764125,
+    "input_tokens": 287641,
+    "output_tokens": 12102,
+    "success": true,
+    "summary": "Issue #50 created. Fetched all 31 open issues and built a complete duplicate checklist. 1 new issue for responsive CSS."
+  },
+  {
+    "timestamp": "2026-06-16T07:07:49Z",
+    "agent": "worker",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.1861079,
+    "input_tokens": 267822,
+    "output_tokens": 2477,
+    "success": true,
+    "summary": "Blocked on permissions — mcp__github__update_issue tool not in allowlist. Tried 3 times to claim issue #48, denied each time."
+  },
+  {
+    "timestamp": "2026-06-16T07:21:22Z",
+    "agent": "manager",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.4416,
+    "input_tokens": 302293,
+    "output_tokens": 13037,
+    "success": true,
+    "summary": "Triage complete. Scanned demo/index.html against all 32 existing issues and created 2 new issues."
+  },
+  {
+    "timestamp": "2026-06-16T07:27:54Z",
+    "agent": "worker",
+    "model": "claude-sonnet-4-6",
+    "cost_usd": 0.9712,
+    "input_tokens": 1294163,
+    "output_tokens": 26123,
+    "success": true,
+    "summary": "All 3 issues completed. Fixed and opened PRs for 3 agent:ready issues."
   }
 ]
