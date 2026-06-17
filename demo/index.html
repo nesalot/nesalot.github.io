@@ -15,6 +15,21 @@
             min-height: 100vh;
         }
 
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            background: #282c34;
+            color: #98c379;
+            padding: 8px 16px;
+            font-size: 13px;
+            text-decoration: none;
+            z-index: 1000;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
         .container {
             max-width: 880px;
             margin: 0 auto;
@@ -371,7 +386,8 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="container" id="main-content">
 
         <!-- Nav -->
         <div class="nav">
